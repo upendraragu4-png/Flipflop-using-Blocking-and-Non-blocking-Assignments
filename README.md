@@ -30,21 +30,127 @@ Close the Simulation Once done, by going to Simulation → "Close Simulation
 
 Input/Output Signal Diagram:
 
-D FF
-
-SR FF
-
-JK FF
-
-T FF
-
 
 RTL Code:
+```
+module sr_ff (
+    input wire S, R, clk,
+    output reg Q
+);
+    always @(posedge clk) begin
+
+
+
+endmodule
+```
+```
+module jk_ff (
+    input wire J, K, clk,
+    output reg Q
+);
+    always @(posedge clk) begin
+
+
+
+endmodule
+```
+```
+module d_ff (
+    input wire d,clk,
+    output reg Q
+);
+    always @(posedge clk) begin
+
+
+
+endmodule
+```
 
 TestBench:
+```
+module sr_ff_tb;
+reg clk, S, R;
+wire Q;
+sr_ff uut (.clk(clk),.S(S),.R(R),.Q(Q));
+initial begin
+clk = 0;
+forever #10 clk = ~clk;
+end
+initial begin
+S = 0; R = 0;
+#100 S = 1; R = 0;
+#100 S = 0; R = 0;
+#100 S = 0; R = 1;
+#100 S = 1; R = 1;
+#100 S = 0; R = 0;
+end
 
+```
+```
+module tb_jk_ff;
+reg clk;
+reg J, K;
+wire Q;
+jk_ff uut (.clk(clk),.J(J),.K(K),.Q(Q));
+initial begin
+clk=0;
+forever #20 clk=~clk;
+end
+initial begin
+J = 0; K = 0;
+#100 J=0; K=0;
+#100 J=0; K=1;
+#100 J=1; K=0;
+#100 J=1; K=1;
+#100 J=0; K=1;
+#100 J=1; K=0;
+#100 J=1; K=1;
+end
+endmodule
+```
+```
+module t_ff_tb;
+reg clk, rst, T;
+wire Tout;
+t_ff uut (.clk(clk),.rst(rst),.T(T),.Tout(Tout));
+initial begin
+clk = 0;
+forever #10 clk = ~clk;
+end
+initial begin
+rst = 1; T = 0;
+#20 rst = 0;
+#20 T = 1;
+#20 T = 0;
+#20 T = 1;
+#20 T = 1;
+#20 T = 0;
+end
+endmodule
+```
+```
+module dff_tb;
+reg clk_t, rst_t, d_t;
+wire q_t;
+dff dut (.clk(clk_t),.rst(rst_t),.d(d_t),.q(q_t) );
+initial begin
+clk_t = 1'b0;
+rst_t = 1'b1;
+d_t = 1'b0;
+#100 rst_t = 1'b0;
+#100 d_t = 1'b1;
+#100 d_t = 1'b0;
+#100 d_t = 1'b1;
+end
+always #10 clk_t = ~clk_t;
+endmodule
+```
 Output waveform:
+![WhatsApp Image 2025-09-17 at 20 18 35_7ce85bdc](https://github.com/user-attachments/assets/8b80e4dc-d5f0-4559-9909-e87482dc69e1)
+![WhatsApp Image 2025-09-17 at 20 18 36_ff9eeb43](https://github.com/user-attachments/assets/cddf19a0-3574-4015-8b3f-ac531ecd767c)
+![WhatsApp Image 2025-09-17 at 20 18 36_d90022e5](https://github.com/user-attachments/assets/cab46979-d38f-4545-a621-8c256fbfb8ae)
+![WhatsApp Image 2025-09-17 at 20 18 36_871d41e0](https://github.com/user-attachments/assets/938ebba2-3b45-44df-905c-a3d01d68a750)
 
 Conclusion:
 
-
+All flip-flops (SR, D, JK, T) were successfully simulated using blocking statements in Verilog HDL. The outputs matched the expected truth table values, demonstrating correct sequential behavior.
